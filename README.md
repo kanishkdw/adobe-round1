@@ -1,61 +1,73 @@
-# Adobe Challenge: PDF Processing Solutions
+# Adobe Challenge - PDF Processing System
 
-This repository contains comprehensive solutions for both Round 1A (PDF Outline Extraction) and Round 1B (Multi-PDF Relevance Extraction) of the Adobe coding challenge.
+This repository contains implementations for Adobe's PDF processing challenge with two rounds:
 
-## Project Structure
+- **Round 1A**: PDF Outline Extraction - Extract hierarchical document outlines from PDF files
+- **Round 1B**: Multi-PDF Relevance Extraction - Find relevant sections across multiple PDFs based on persona and job requirements
+
+## 🏗️ Project Structure
 
 ```
-adobe_challenge/
-├── round_1a/                    # PDF Outline Extraction
-│   ├── src/
-│   │   ├── extractor.py        # Main extraction pipeline
-│   │   ├── pdf_utils.py        # Heading detection and classification
-│   │   ├── schema_validator.py # JSON schema validation
-│   │   └── main.py            # Docker entry point
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── README.md
+adobe-round-1a/
+├── 📁 round_1a/                    # Round 1A: PDF Outline Extraction
+│   ├── 📁 src/
+│   │   ├── extractor.py            # Main application logic
+│   │   ├── pdf_utils.py            # PDF processing utilities
+│   │   └── schema_validator.py     # JSON schema validation
+│   ├── 📁 input/                   # Input PDF files
+│   ├── 📁 output/                  # Generated outlines
+│   ├── Dockerfile                  # Docker configuration
+│   └── requirements.txt            # Python dependencies
 │
-├── round_1b/                    # Multi-PDF Relevance Extraction
-│   ├── src/
-│   │   ├── extractor.py        # Main processing pipeline
-│   │   ├── ranker.py           # Section ranking algorithms
-│   │   ├── summarizer.py       # Text summarization
-│   │   ├── persona_matcher.py  # Context analysis
-│   │   ├── utils.py            # Common utilities
-│   │   └── main.py            # Docker entry point
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   ├── approach_explanation.md
-│   └── README.md
+├── 📁 round_1b/                    # Round 1B: Multi-PDF Relevance Extraction
+│   ├── 📁 src/
+│   │   ├── extractor.py            # Main application logic
+│   │   ├── ranker.py               # Section ranking algorithms
+│   │   ├── summarizer.py           # Text summarization
+│   │   ├── persona_matcher.py      # Persona-job matching
+│   │   └── utils.py                # Utility functions
+│   ├── 📁 input/                   # Input PDF files and config
+│   ├── 📁 output/                  # Generated relevance analysis
+│   ├── Dockerfile                  # Docker configuration
+│   └── requirements.txt            # Python dependencies
 │
-└── shared/
-    └── text_extractor.py       # Common PDF processing utilities
+└── 📁 shared/                      # Shared utilities
+    └── text_extractor.py           # PDF text extraction utilities
 ```
 
-## Round 1A: PDF Outline Extraction
+## 🚀 Quick Start
 
-### Overview
-Extracts structured, hierarchical outlines from PDF files with document titles and heading levels (H1, H2, H3).
+### Prerequisites
 
-### Key Features
-- **Fast Processing**: <10 seconds for 50-page documents
-- **Layout-Aware**: Uses font size, boldness, and position heuristics
-- **Hierarchical Detection**: Automatically classifies headings into H1, H2, H3 levels
-- **Schema Validation**: Ensures output matches required JSON structure
-- **Offline Processing**: Works completely offline without network access
+- Docker installed and running
+- PDF files for processing
 
-### Usage
+### Round 1A: PDF Outline Extraction
+
+**Purpose**: Extract structured hierarchical outlines from PDF documents with titles and headings (H1, H2, H3).
+
+#### Step 1: Prepare Input Files
+Place your PDF files in the `round_1a/input/` directory:
 ```bash
-cd round_1a
-docker build -t round-1a .
-docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output --network none round-1a
+# Copy your PDF files to the input directory
+cp your_documents.pdf round_1a/input/
 ```
 
-**Input**: Place PDF file in `input/` directory  
-**Output**: JSON file saved to `output/outline.json`
+#### Step 2: Build Docker Image
+```bash
+docker build -t round-1a -f round_1a/Dockerfile .
+```
 
-### Output Format
+#### Step 3: Run Round 1A
+```bash
+docker run --rm -v ${PWD}/round_1a/input:/app/input -v ${PWD}/round_1a/output:/app/output --network none round-1a
+```
+
+#### Step 4: Check Results
+The system will process all PDF files in the input directory and generate individual outline files in `round_1a/output/`:
+- `filename_outline.json` for each processed PDF
+
+**Example Output Format**:
 ```json
 {
   "title": "Document Title",
@@ -67,152 +79,160 @@ docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output --networ
 }
 ```
 
-## Round 1B: Multi-PDF Relevance Extraction
+### Round 1B: Multi-PDF Relevance Extraction
 
-### Overview
-Extracts the most relevant sections from multiple PDF documents based on a user persona and specific job requirements.
+**Purpose**: Analyze multiple PDFs to find the most relevant sections based on a specific persona and job requirements.
 
-### Key Features
-- **Multi-Document Processing**: Handles 3-10 PDF files simultaneously
-- **Persona-Job Matching**: Advanced context analysis for relevance scoring
-- **Hybrid Ranking**: Combines TF-IDF, semantic similarity, and positional scoring
-- **Extractive Summarization**: Multiple summarization techniques
-- **Structured Output**: JSON format with metadata and ranked sections
-
-### Usage
+#### Step 1: Prepare Input Files
+1. **Place PDF files** in `round_1b/input/`:
 ```bash
-cd round_1b
-docker build -t round-1b .
-
-# Using environment variables
-docker run --rm \
-  -e PERSONA="Food Contractor" \
-  -e JOB="Create a vegetarian dinner buffet plan with gluten-free items" \
-  -v $(pwd)/input:/app/input \
-  -v $(pwd)/output:/app/output \
-  --network none round-1b
+cp your_pdfs/*.pdf round_1b/input/
 ```
 
-**Input**: 
-- PDF files in `input/` directory
-- Configuration via environment variables, config.json, or individual text files
+2. **Configure persona and job** in `round_1b/input/config.json`:
+```json
+{
+  "persona": "Travel Planner",
+  "job": "Plan a trip of 4 days for a group of 10 college friends"
+}
+```
 
-**Output**: JSON file saved to `output/relevant_sections.json`
+#### Step 2: Build Docker Image
+```bash
+docker build -t round-1b -f round_1b/Dockerfile .
+```
 
-### Output Format
+#### Step 3: Run Round 1B
+```bash
+docker run --rm -v ${PWD}/round_1b/input:/app/input -v ${PWD}/round_1b/output:/app/output --network none round-1b
+```
+
+#### Step 4: Check Results
+The system generates `round_1b/output/relevant_sections.json` with:
+- Top 5 most relevant sections ranked by importance
+- Subsection analysis with refined text
+- Metadata including processing timestamp
+
+**Example Output Format**:
 ```json
 {
   "metadata": {
     "input_documents": ["doc1.pdf", "doc2.pdf"],
-    "persona": "Food Contractor",
-    "job_to_be_done": "Create a vegetarian dinner buffet plan",
-    "processing_timestamp": "2023-12-07T10:30:00"
+    "persona": "Travel Planner",
+    "job_to_be_done": "Plan a trip of 4 days for a group of 10 college friends",
+    "processing_timestamp": "2025-07-28T14:43:28.874849"
   },
   "extracted_sections": [
     {
-      "document": "catering_guide.pdf",
-      "section_title": "Vegetarian Menu Planning",
+      "document": "doc1.pdf",
+      "section_title": "Travel Tips",
       "importance_rank": 1,
-      "page_number": 15
+      "page_number": 5
     }
   ],
   "subsection_analysis": [
     {
-      "document": "catering_guide.pdf",
-      "refined_text": "Menu planning summary...",
-      "page_number": 15
+      "document": "doc1.pdf",
+      "refined_text": "Essential travel information...",
+      "page_number": 5
     }
   ]
 }
 ```
 
-## Technical Architecture
+## 🔧 Technical Details
 
-### Shared Components
-- **`shared/text_extractor.py`**: Common PDF processing utilities using PyMuPDF
-- Provides text extraction, heading detection, and document analysis functions
-- Used by both rounds for consistent PDF handling
+### Round 1A Features
+- **Offline processing**: No internet connection required
+- **CPU-only**: No GPU dependencies
+- **Fast processing**: < 10 seconds for 50-page documents
+- **Lightweight**: < 200MB model size
+- **Batch processing**: Handles multiple PDF files automatically
+- **Smart heading detection**: Uses font size, boldness, position, and hierarchy heuristics
+- **Title extraction**: Intelligently identifies document titles vs. headings
 
-### Round 1A Architecture
-- **Heading Detection**: Font size and formatting analysis
-- **Hierarchy Classification**: Smart level assignment with validation
-- **Schema Validation**: Strict JSON structure compliance
+### Round 1B Features
+- **Multi-document analysis**: Processes 3-10 PDFs simultaneously
+- **Hybrid ranking**: Combines TF-IDF, semantic similarity, and composite scoring
+- **Persona-job matching**: Context-aware relevance scoring
+- **Extractive summarization**: Generates concise summaries of relevant sections
+- **Quality filtering**: Removes low-quality or irrelevant content
+- **Structured output**: JSON format with metadata and analysis
 
-### Round 1B Architecture
-- **Document Processing**: Section extraction and content normalization
-- **Relevance Scoring**: Multi-factor ranking with TF-IDF, semantic similarity
-- **Persona Analysis**: Professional context and requirement extraction
-- **Summarization**: TextRank, frequency-based, and positional methods
+### Performance Constraints
+- **Round 1A**: ≤ 10 seconds for 50 pages, ≤ 200MB model size
+- **Round 1B**: ≤ 60 seconds for 10 PDFs, ≤ 1GB model size
+- **Offline operation**: No external API calls
+- **CPU-only processing**: No GPU requirements
 
-## Performance Specifications
+## 🛠️ Troubleshooting
 
-### Round 1A
-- **Speed**: <10 seconds for 50-page documents
-- **Model Size**: No models >200MB
-- **CPU Only**: No GPU requirements
-- **Memory**: Optimized for minimal usage
+### Common Issues
 
-### Round 1B  
-- **Speed**: <60 seconds for 10 documents
-- **Model Size**: <1GB total including dependencies
-- **CPU Only**: No GPU requirements
-- **Memory**: Handles multiple large PDFs efficiently
+1. **Docker build fails with "COPY" errors**:
+   - Ensure you're running build commands from the project root directory
+   - Use the exact Dockerfile paths: `-f round_1a/Dockerfile .` or `-f round_1b/Dockerfile .`
 
-## Dependencies
+2. **ModuleNotFoundError**:
+   - The Docker images are pre-configured with correct Python paths
+   - Ensure you're using the latest built images
 
-### Round 1A
-- PyMuPDF (PDF processing)
-- jsonschema (validation)
-- pdfplumber (fallback processing)
+3. **No PDF files found**:
+   - Check that PDF files are in the correct input directories
+   - Verify file permissions and naming
 
-### Round 1B
-- PyMuPDF (PDF processing)
-- nltk (NLP utilities)
-- scikit-learn (ML algorithms)
-- numpy (numerical computing)
-- jsonschema (validation)
+4. **Empty outlines or low relevance scores**:
+   - Ensure PDFs contain actual text content (not just images)
+   - Check that persona and job descriptions are specific and relevant
 
-## Development Approach
+### Debug Commands
 
-### Design Principles
-1. **Modularity**: Clear separation of concerns with focused modules
-2. **Reusability**: Shared components for common functionality
-3. **Robustness**: Graceful error handling and fallback mechanisms
-4. **Performance**: Optimized for speed and memory efficiency
-5. **Maintainability**: Clean code with comprehensive documentation
+```bash
+# Check Docker images
+docker images | grep round
 
-### Quality Assurance
-- **Schema Validation**: Strict output format compliance
-- **Error Handling**: Comprehensive error catching and logging
-- **Performance Monitoring**: Built-in timing and progress tracking
-- **Content Quality**: Filtering of low-quality or irrelevant content
+# View container logs
+docker logs <container_id>
 
-## Testing and Validation
+# Inspect input/output directories
+ls -la round_1a/input/
+ls -la round_1a/output/
+ls -la round_1b/input/
+ls -la round_1b/output/
+```
 
-### Round 1A Testing
-1. Place test PDF in `round_1a/input/`
-2. Run Docker command
-3. Verify `round_1a/output/outline.json` format and content
+## 📋 Requirements
 
-### Round 1B Testing
-1. Place multiple PDFs in `round_1b/input/`
-2. Create configuration (environment variables or config files)
-3. Run Docker command
-4. Verify `round_1b/output/relevant_sections.json` format and relevance
+### System Requirements
+- Docker Desktop or Docker Engine
+- 4GB+ RAM recommended
+- 2GB+ disk space for Docker images
 
-## Future Enhancements
+### Supported PDF Formats
+- Text-based PDFs (not scanned images)
+- Up to 50 pages per document (Round 1A)
+- Up to 10 documents per batch (Round 1B)
 
-### Potential Improvements
-- **Advanced NLP**: Transformer models for better semantic understanding
-- **Visual Elements**: Process images, tables, and charts
-- **Multi-language**: Support for non-English documents
-- **Real-time Processing**: Stream processing capabilities
-- **API Interface**: REST API for programmatic access
+## 🎯 Use Cases
 
-### Scalability Features
-- **Distributed Processing**: Handle larger document collections
-- **Database Integration**: Persistent storage and indexing
-- **Caching**: Improved performance for repeat processing
-- **Batch Processing**: Handle multiple jobs simultaneously
+### Round 1A Use Cases
+- Document structure analysis
+- Table of contents generation
+- Content organization assessment
+- Legal document outline extraction
+- Technical manual structure analysis
 
-This implementation provides a solid foundation for PDF processing tasks while maintaining flexibility for future enhancements and different use cases. 
+### Round 1B Use Cases
+- Research document analysis
+- Travel planning from multiple guides
+- Academic literature review
+- Business intelligence from reports
+- Content recommendation systems
+
+## 📝 License
+
+This project is developed for the Adobe Challenge and follows the challenge specifications and constraints.
+
+---
+
+**Ready to process your PDFs?** Start with Round 1A for document structure analysis, then use Round 1B for multi-document relevance extraction! 

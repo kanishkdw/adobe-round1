@@ -62,7 +62,7 @@ class TFIDFRanker:
         self.total_documents = len(sections)
         
         for section in sections:
-            section_terms = set(TextProcessor.extract_keywords(section.content.lower()))
+            section_terms = TextProcessor.extract_keywords(section.content.lower())
             for term in section_terms:
                 self.document_frequencies[term] = self.document_frequencies.get(term, 0) + 1
     
@@ -185,16 +185,38 @@ class HybridRanker:
             }
         
         # Get TF-IDF scores
-        tfidf_scores = dict(self.tfidf_ranker.compute_tf_idf_scores(sections, persona, job))
+        tfidf_scored = self.tfidf_ranker.compute_tf_idf_scores(sections, persona, job)
         
         # Get semantic scores  
-        semantic_scores = dict(self.semantic_ranker.compute_semantic_scores(sections, persona, job))
+        semantic_scored = self.semantic_ranker.compute_semantic_scores(sections, persona, job)
         
-        # Get composite scores
-        total_pages = max(section.page_number for section in sections) if sections else 1
+        # Create section to score mappings using section identifiers
+        tfidf_scores = {}
+        semantic_scores = {}
         composite_scores = {}
+        
+        # Use section identifiers (document_name + section_title + page_number) as keys
         for section in sections:
-            composite_scores[section] = ScoringUtils.calculate_composite_score(
+            section_id = f"{section.document_name}_{section.section_title}_{section.page_number}"
+            tfidf_scores[section_id] = 0.0
+            semantic_scores[section_id] = 0.0
+            composite_scores[section_id] = 0.0
+        
+        # Populate TF-IDF scores
+        for section, score in tfidf_scored:
+            section_id = f"{section.document_name}_{section.section_title}_{section.page_number}"
+            tfidf_scores[section_id] = score
+            
+        # Populate semantic scores
+        for section, score in semantic_scored:
+            section_id = f"{section.document_name}_{section.section_title}_{section.page_number}"
+            semantic_scores[section_id] = score
+            
+        # Calculate composite scores
+        total_pages = max(section.page_number for section in sections) if sections else 1
+        for section in sections:
+            section_id = f"{section.document_name}_{section.section_title}_{section.page_number}"
+            composite_scores[section_id] = ScoringUtils.calculate_composite_score(
                 section, persona, job, total_pages=total_pages
             )
         
@@ -206,9 +228,10 @@ class HybridRanker:
         # Combine scores
         final_scores = []
         for section in sections:
-            tfidf_norm = tfidf_scores.get(section, 0) / tfidf_max if tfidf_max > 0 else 0
-            semantic_norm = semantic_scores.get(section, 0) / semantic_max if semantic_max > 0 else 0
-            composite_norm = composite_scores.get(section, 0) / composite_max if composite_max > 0 else 0
+            section_id = f"{section.document_name}_{section.section_title}_{section.page_number}"
+            tfidf_norm = tfidf_scores.get(section_id, 0) / tfidf_max if tfidf_max > 0 else 0
+            semantic_norm = semantic_scores.get(section_id, 0) / semantic_max if semantic_max > 0 else 0
+            composite_norm = composite_scores.get(section_id, 0) / composite_max if composite_max > 0 else 0
             
             final_score = (
                 weights['tfidf'] * tfidf_norm +
