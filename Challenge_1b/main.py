@@ -55,4 +55,4 @@ if __name__ == "__main__":
     with open(OUTPUT_JSON, "w") as f:
         json.dump(result, f, indent=2)
 
-    print(f"✅ Output written to {OUTPUT_JSON}")
+    print(f" Output written to {OUTPUT_JSON}")
