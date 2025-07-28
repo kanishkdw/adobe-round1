@@ -47,37 +47,39 @@ This solution doesn't just parse PDFs. It understands them. It ranks sections ba
 ### 1. PDF Structure Extraction (parser.py)
 The parser.py module performs visual structure recognition of PDFs using the PyMuPDF (fitz) library — without relying on any external API or ML model. It analyzes low-level span attributes like font size, boldness, position (y), and uppercase ratio to heuristically identify headings and their hierarchy.
 
-Key Techniques:
-+ Text Span Normalization: Cleans up whitespace and formatting inconsistencies using regex.
+###  Key Techniques in PDF Parsing
 
-- ### Heading Candidate Heuristics:
+####  Text Span Normalization
 
-+ Filters out spans that are too short, too long, punctuation-ended, or appear in footers (y > 700)
+* Cleans up whitespace and formatting inconsistencies using regex.
 
-+ Uses boldness and uppercase ratio to suppress false positives
+####  Heading Candidate Heuristics
 
-+ Ignores common non-headings like “Page”, “Figure”, etc.
+* Filters out spans that are too short, too long, punctuation-ended, or appear in footers (`y > 700`).
+* Uses boldness and uppercase ratio to suppress false positives.
+* Ignores common non-headings like “Page”, “Figure”, etc.
 
-- ++ +Style Clustering: ++
+####  Style Clustering
 
-+ Counts (font size, bold) combinations across the document
+* Counts `(font size, bold)` combinations across the document.
+* Determines the most common text style (body text) as baseline.
+* Selects top distinct styles above it as `H1`, `H2`, ..., based on decreasing font size and emphasis.
 
-+ Determines the most common text style (body text) as baseline
+####  Outline Builder
 
-+ Selects top distinct styles above it as H1, H2, ..., based on decreasing font size and emphasis
+* For each eligible span, constructs a dictionary:
 
-- ++ Outline Builder: ++
+  ```json
+  { "level": "H1/H2/H3...", "text": "heading", "page": "page_num" }
+  ```
 
-+ For each eligible span, constructs a dictionary:
-  
-```{ level: H1/H2/H3..., text: heading, page: page_num }```
-+ Deduplicates entries to avoid repetition
+* Deduplicates entries to avoid repetition.
 
-- --Title Extraction:--
+####  Title Extraction
 
-- From the first page only, picks top 1–2 largest spans as the title
+* From the first page only, picks top 1–2 largest spans as the title.
+* Ensures fallback even when metadata is absent.
 
-- Ensures fallback even when metadata is absent
 
 ``` Output Format:
 Output Format:
@@ -127,6 +129,24 @@ We also store document name and page numbers to aid in navigation.
 * Personalized PDF reading experience
 * Use case for Adobe Sensei-powered document intelligence
 * Accelerates content discovery for researchers and professionals
+
+To elevate the current section-ranking pipeline, we plan to integrate:
+
+- Hybrid Scoring Models: Combine TF-IDF, keyword overlap, and semantic similarity into a unified score.
+
+- LLM Integration: Use models like OpenAI or Cohere for deep semantic relevance.
+
+- Domain Adaptation: Add support for domain-specific keywords and multilingual documents.
+
+- Query Expansion: Leverage embeddings (e.g., Sentence-BERT) to broaden search context.
+
+- Intelligent Filtering: Heuristic filters and user feedback loops for cleaner output.
+
+- Scalability & Extensibility: Modular components ready for production use in search, summarization, and recommendation pipelines.
+
+These improvements will make the ranking engine smarter, adaptive, and better aligned with industrial-scale document understanding.
+
+
 
 ### 4. Intelligent Output Schema
 
