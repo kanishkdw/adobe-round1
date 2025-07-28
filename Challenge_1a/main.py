@@ -6,7 +6,7 @@ from parser import extract_outline
 INPUT_DIR = "/app/input"
 OUTPUT_DIR = "/app/output"
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     print(f"Starting processing of PDFs from {INPUT_DIR}...")
