@@ -1,31 +1,49 @@
-# File: Challenge_1b/ranker.py
-
-from sentence_transformers import SentenceTransformer, util
-
-model = SentenceTransformer("all-MiniLM-L6-v2")
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 def rank_sections(outlines, persona, job):
-    context = persona + ". " + job
-    context_embedding = model.encode(context, convert_to_tensor=True)
+    sections = []
 
-    candidates = []
+    # Flatten all outlines into (document, page, section_title, dummy_content)
+    for doc, content in outlines.items():
+        for item in content.get("outline", []):
+            page = item.get("page", 0)
+            text = item.get("text", "")
+            sections.append((doc, page, text, text))  # using text as dummy content
 
-    for doc_name, parsed in outlines.items():
-        for section in parsed["outline"]:
-            section_text = section["text"]
-            section_embedding = model.encode(section_text, convert_to_tensor=True)
-            score = util.cos_sim(section_embedding, context_embedding).item()
+    # print("DEBUG: Sections format =", sections)
 
-            candidates.append({
-                "document": doc_name,
-                "section_title": section_text,
-                "page_number": section["page"],
-                "score": score
-            })
+    if not sections:
+        print("No sections found.")
+        return []
 
-    candidates.sort(key=lambda x: x["score"], reverse=True)
-    for i, item in enumerate(candidates[:5]):
-        item["importance_rank"] = i + 1
-        del item["score"]
+    # Construct query from persona and job
+    query = f"{persona} {job}"
 
-    return candidates[:5]
+    # Corpus: section content + query
+    corpus = [s[3] for s in sections] + [query]
+
+    # Vectorize using TF-IDF
+    vectorizer = TfidfVectorizer().fit(corpus)
+    vectors = vectorizer.transform(corpus)
+
+    query_vec = vectors[-1]          # Last vector is the query
+    section_vecs = vectors[:-1]      # All others are section vectors
+
+    # Compute cosine similarity
+    scores = cosine_similarity(query_vec, section_vecs).flatten()
+
+    # Rank sections by score
+    ranked = sorted(zip(sections, scores), key=lambda x: x[1], reverse=True)
+
+    top_k = 5  # Change this if needed
+    top_sections = []
+    for rank, ((doc, page, title, _), score) in enumerate(ranked[:top_k], 1):
+        top_sections.append({
+            "document": doc,
+            "page_number": page,
+            "section_title": title,
+            "importance_rank": rank
+        })
+
+    return top_sections

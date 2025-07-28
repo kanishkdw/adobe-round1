@@ -7,7 +7,8 @@ from parser import extract_outline
 from ranker import rank_sections
 from summarizer import extract_subsections
 
-COLLECTION_PATH = "Challenge_1b/Collection 1"  # <- Change to Collection 2 / 3 to test others
+COLLECTION_PATH = "Collection 1"
+  # <- Change to Collection 2 / 3 to test others
 PDF_DIR = os.path.join(COLLECTION_PATH, "PDFs")
 INPUT_JSON = os.path.join(COLLECTION_PATH, "challenge1b_input.json")
 OUTPUT_JSON = os.path.join(COLLECTION_PATH, "generated_output.json")
@@ -43,6 +44,8 @@ def generate_output(persona, job, input_docs, top_sections, subsections):
 if __name__ == "__main__":
     persona, job, input_files = load_input()
     outlines = parse_pdfs(input_files)
+    
+
 
     top_sections = rank_sections(outlines, persona, job)
     subsections = extract_subsections(PDF_DIR, top_sections)  # Uses heading page number

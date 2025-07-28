@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "input_documents": [
+      "South of France - Cities.pdf",
+      "South of France - Cuisine.pdf",
+      "South of France - History.pdf",
+      "South of France - Restaurants and Hotels.pdf",
+      "South of France - Things to Do.pdf",
+      "South of France - Tips and Tricks.pdf",
+      "South of France - Traditions and Culture.pdf"
+    ],
+    "persona": "Travel Planner",
+    "job_to_be_done": "Plan a trip of 4 days for a group of 10 college friends.",
+    "processing_timestamp": "2025-07-28T13:47:06.757221"
+  },
+  "extracted_sections": [
+    {
+      "document": "South of France - Cities.pdf",
+      "page_number": 2,
+      "section_title": "Travel Tips",
+      "importance_rank": 1
+    },
+    {
+      "document": "South of France - Tips and Tricks.pdf",
+      "page_number": 1,
+      "section_title": "The Ultimate South of France Travel Companion: Your Comprehensive Guide to Packing,",
+      "importance_rank": 2
+    },
+    {
+      "document": "South of France - Cities.pdf",
+      "page_number": 3,
+      "section_title": "Boat Trip to the Calanques",
+      "importance_rank": 3
+    },
+    {
+      "document": "South of France - History.pdf",
+      "page_number": 3,
+      "section_title": "Carnival of Nice",
+      "importance_rank": 4
+    },
+    {
+      "document": "South of France - Traditions and Culture.pdf",
+      "page_number": 2,
+      "section_title": "Carnival of Nice",
+      "importance_rank": 5
+    }
+  ],
+  "subsection_analysis": [
+    {
+      "document": "South of France - Cities.pdf",
+      "refined_text": "Overview of the Region \nThe South of France, or \"Le Midi,\" encompasses the regions of Provence-Alpes-C\u00f4te d'Azur, \nOccitanie, and parts of Nouvelle-Aquitaine. This area is renowned for its diverse landscapes, \nfrom the sun-drenched beaches of the French Riviera to the rolling vineyards of Provence and \nthe rugged Pyrenees mountains. The Mediterranean climate ensures warm summers and \nmild winters, making it a year-round destination. The South of France is also famous for its \ncuisine, wines, and vibrant cultural scene. \nTravel Tips \n\u2022 \nBest Time to Visit: The best time to visit the South of France is during the spring (April \nto June) and fall (September to October) when the weather is pleasant, and the tourist \ncrowds are smaller. \n\u2022 \nTransportation: The region is well-connected by an extensive network of trains, \nbuses, and flights. Renting a car is also a great option for exploring the countryside \nand smaller towns. \n\u2022 \nLanguage: While French is the o\ufb03cial language, English is widely spoken in tourist \nareas. Learning a few basic French phrases can enhance your travel experience.",
+      "page_number": 2
+    },
+    {
+      "document": "South of France - Tips and Tricks.pdf",
+      "refined_text": "The Ultimate South of France Travel Companion: Your Comprehensive Guide to Packing, \nPlanning, and Exploring \nIntroduction \nPlanning a trip to the South of France requires thoughtful preparation to ensure a \ncomfortable and enjoyable experience. This guide covers everything from packing essentials \nto travel tips, catering to all seasons and various activities. Whether you're traveling solo, with \nkids, or in a group, this guide will help you make the most of your trip.",
+      "page_number": 1
+    },
+    {
+      "document": "South of France - Cities.pdf",
+      "refined_text": "Marseille: The Oldest City in France \nHistory \nMarseille, founded by Greek sailors around 600 BC, is the oldest city in France. Its strategic \nlocation on the Mediterranean coast made it a vital trading port throughout history. The city's \nrich cultural heritage is reflected in its diverse architecture and vibrant atmosphere. Over the \ncenturies, Marseille has been influenced by various cultures, including Greek, Roman, and \nNorth African, making it a melting pot of traditions and customs. \nKey Attractions \n\u2022 \nOld Port (Vieux-Port): The heart of Marseille, the Old Port has been a bustling harbor \nfor over 2,600 years. Today, it is a lively area filled with cafes, restaurants, and \nmarkets. \n\u2022 \nBasilica of Notre-Dame de la Garde: This iconic basilica, perched on a hill \noverlooking the city, o\ufb00ers panoramic views of Marseille and the Mediterranean Sea. \nBuilt in the 19th century, it is a symbol of the city's maritime heritage. \n\u2022 \nMuCEM (Museum of European and Mediterranean Civilizations): This modern \nmuseum explores the cultural history of the Mediterranean region through a variety of \nexhibits and interactive displays. \n\u2022 \nLe Panier: The oldest district in Marseille, Le Panier is a maze of narrow streets, \ncolorful buildings, and historic landmarks. It's a great place to explore the city's past \nand enjoy its vibrant culture. \nLocal Experiences \n\u2022 \nBoat Trip to the Calanques: Take a boat trip to the Calanques, a series of stunning \nlimestone cli\ufb00s and coves along the coast. \n\u2022 \nFish Market at the Old Port: Visit the fish market at the Old Port to experience the \nlocal seafood culture. \n\u2022 \nStreet Art in Cours Julien: Explore the vibrant street art scene in the Cours Julien \ndistrict. \nCultural Highlights \nMarseille is known for its vibrant arts scene, with numerous galleries, theaters, and music \nvenues. The city hosts several festivals throughout the year, including the Festival de \nMarseille, which celebrates contemporary dance, theater, and music. Marseille's cu",
+      "page_number": 3
+    },
+    {
+      "document": "South of France - History.pdf",
+      "refined_text": "Nice: The Jewel of the French Riviera \nNice, located on the French Riviera, has been a popular destination for centuries. Its history \ndates back to the ancient Greeks, who founded the city around 350 BC. Nice later became a \nRoman colony and has since evolved into a glamorous resort town. \nKey Historical Sites in Nice \n\u2022 \nCastle Hill (Colline du Ch\u00e2teau): This hilltop park o\ufb00ers stunning views of Nice and \nthe Mediterranean. It was once the site of a medieval castle, which was destroyed in \nthe 18th century. \n\u2022 \nPromenade des Anglais: This famous seaside promenade was built in the 19th century \nand named after the English aristocrats who frequented Nice. It's perfect for a leisurely \nstroll along the coast. \n\u2022 \nOld Town (Vieux Nice): The historic center of Nice is a labyrinth of narrow streets, \nbaroque churches, and bustling markets. Don't miss the Cours Saleya market, where \nyou can find fresh produce, flowers, and local delicacies. \n\u2022 \nRussian Orthodox Cathedral: Built in the early 20th century, this stunning cathedral \nreflects the influence of Russian aristocrats who vacationed in Nice. \n\u2022 \nCimiez: An ancient Roman settlement, Cimiez is home to the ruins of a Roman \namphitheater and baths, as well as the Monastery of Cimiez, which o\ufb00ers beautiful \ngardens and a museum dedicated to the painter Henri Matisse3. \n\u2022 \nCarnival of Nice: One of the most famous carnivals in France, the Carnival of Nice \ndates back to 1873 and features elaborate parades, floats, and flower battles4.",
+      "page_number": 3
+    },
+    {
+      "document": "South of France - Traditions and Culture.pdf",
+      "refined_text": "Language and Literature \nProven\u00e7al Language \nThe Proven\u00e7al language, also known as Occitan, has been a significant part of the cultural \nidentity of the South of France. Although French is the dominant language today, Proven\u00e7al \nwas widely spoken until the 19th century. It is still preserved in literature, music, and local \nexpressions. E\ufb00orts to revive and promote the language continue, with festivals and \neducational programs dedicated to its preservation. \nLiterature and Poetry \nThe South of France has inspired many writers and poets over the centuries. The troubadours \nof the medieval period, who composed and performed lyrical poetry, were particularly \ninfluential. Their works often celebrated chivalry, love, and nature. The region's literary \nheritage also includes famous authors like Marcel Pagnol, whose novels and plays vividly \ndepict Proven\u00e7al life. \n \nFestivals and Celebrations \nCarnival of Nice \nHeld in Nice from mid-February to early March, the Carnival of Nice is one of the most \nfamous and oldest carnivals in the world. The festivities include parades with elaborate floats, \nstreet performances, and fireworks. The Battle of Flowers, where participants throw flowers \ninto the crowd, is a highlight of the event. The carnival's vibrant atmosphere and colorful \ndisplays attract visitors from all over the world. \nF\u00eate de la Musique \nCelebrated on June 21st, the F\u00eate de la Musique is a nationwide music festival that originated \nin France. In the South of France, cities and towns come alive with music, as both amateur \nand professional musicians perform in streets, squares, and parks. The festival promotes a \ndiverse range of musical genres and encourages community participation. \nTranshumance Festivals \nTranshumance, the seasonal migration of livestock to higher pastures, is a tradition that dates \nback centuries. Although modern transportation has replaced much of the traditional \npractice, transhumance festivals are still celebrated in many villages, part",
+      "page_number": 2
+    }
+  ]
+}
